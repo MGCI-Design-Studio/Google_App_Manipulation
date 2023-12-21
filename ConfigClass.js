@@ -124,7 +124,7 @@ class Config {
         }
     }
 
-    find_sections(name, sheet) {
+    static find_sections(name, sheet) {
         const cell = sheet_indexer(name, sheet);
         const sections = [];
 
@@ -139,7 +139,7 @@ class Config {
         return [sections, cell[1] - 1];
     }
 
-    find_config_value(name, sheet) {
+    static find_config_value(name, sheet) {
         if (!sheet[0].includes(name)) {
             SpreadsheetApp.getUi().alert("The config value:" + name + " does not exist");
             return;
