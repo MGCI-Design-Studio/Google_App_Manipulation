@@ -194,7 +194,7 @@ function home_builder(storage = false, home, home_name, config) {
     let home_class;
     let config_values;
 
-    if (!storage) {
+    if (storage) {
         // Try to grab config and home values from script properties
         try {
             // Get the unpacked values
@@ -222,7 +222,7 @@ function home_builder(storage = false, home, home_name, config) {
         }
     }
 
-    if (storage){
+    else {
         const home_range = home.getDataRange();
         config_values = new Config(config, config.getDataRange().getValues(), false);
         let raw_values = formatToJSON(home_range.getRichTextValues(), home_range.getValues(), true);
