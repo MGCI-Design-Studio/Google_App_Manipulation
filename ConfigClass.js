@@ -3,19 +3,19 @@ class Config {
         this.sheet = config;
         if (!isSaved) {
             let found_values = [];
-            found_values.push(Config.find_config_value("Maximum Search Length", values));
-            found_values.push(Config.find_sections("Priority List", values));
-            found_values.push(Config.find_config_value("Priority Section Title", values));
-            found_values.push(Config.find_config_value("Auto Publish", values));
-            found_values.push(Config.find_sections("Form Section Names", values));
-            found_values.push(Config.find_sections("Filtered Section Names", values));
-            found_values.push(Config.find_config_value("Internal Section Name", values));
-            found_values.push(Config.find_config_value("Internal Sheet Number Title", values));
-            found_values.push(Config.find_sections("Priority Exclusion", values));
-            found_values.push(Config.find_sections("Internal Status Naming", values));
-            found_values.push(Config.find_sections("Current Priority Tickets", values));
-            found_values.push(Config.find_config_value("Current Active Tickets", values));
-            found_values.push(Config.find_config_value("Total Saved Tickets", values));
+            found_values.push(this.find_config_value("Maximum Search Length", values));
+            found_values.push(this.find_sections("Priority List", values));
+            found_values.push(this.find_config_value("Priority Section Title", values));
+            found_values.push(this.find_config_value("Auto Publish", values));
+            found_values.push(this.find_sections("Form Section Names", values));
+            found_values.push(this.find_sections("Filtered Section Names", values));
+            found_values.push(this.find_config_value("Internal Section Name", values));
+            found_values.push(this.find_config_value("Internal Sheet Number Title", values));
+            found_values.push(this.find_sections("Priority Exclusion", values));
+            found_values.push(this.find_sections("Internal Status Naming", values));
+            found_values.push(this.find_sections("Current Priority Tickets", values));
+            found_values.push(this.find_config_value("Current Active Tickets", values));
+            found_values.push(this.find_config_value("Total Saved Tickets", values));
 
             values = found_values;
         }
@@ -124,7 +124,7 @@ class Config {
         }
     }
 
-    static find_sections(name, sheet) {
+    find_sections(name, sheet) {
         const cell = sheet_indexer(name, sheet);
         const sections = [];
 
@@ -139,7 +139,22 @@ class Config {
         return [sections, cell[1] - 1];
     }
 
-    static find_config_value(name, sheet) {
+    static find_sections(name, sheet) {
+        const cell = sheet_indexer(name, sheet);
+        const sections = [];
+
+        for (let i = 0; i < sheet.length - cell[0]; i++) {
+            const value = sheet[cell[0] + i][cell[1] - 1];
+            if (value === "" || value == null) {
+                return [sections, cell[1] - 1];
+            }
+            sections.push(value);
+        }
+
+        return sections;
+    }
+
+    find_config_value(name, sheet) {
         if (!sheet[0].includes(name)) {
             SpreadsheetApp.getUi().alert("The config value:" + name + " does not exist");
             return;
