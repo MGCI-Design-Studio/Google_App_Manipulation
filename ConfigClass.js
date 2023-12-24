@@ -3,19 +3,19 @@ class Config {
         this.sheet = config;
         if (!isSaved) {
             let found_values = [];
-            found_values.push(this.Config.find_config_value("Maximum Search Length", values));
-            found_values.push(this.Config.find_sections("Priority List", values));
-            found_values.push(this.Config.find_config_value("Priority Section Title", values));
-            found_values.push(this.Config.find_config_value("Auto Publish", values));
-            found_values.push(this.Config.find_sections("Form Section Names", values));
-            found_values.push(this.Config.find_sections("Filtered Section Names", values));
-            found_values.push(this.Config.find_config_value("Internal Section Name", values));
-            found_values.push(this.Config.find_config_value("Internal Sheet Number Title", values));
-            found_values.push(this.Config.find_sections("Priority Exclusion", values));
-            found_values.push(this.Config.find_sections("Internal Status Naming", values));
-            found_values.push(this.Config.find_sections("Current Priority Tickets", values));
-            found_values.push(this.Config.find_config_value("Current Active Tickets", values));
-            found_values.push(this.Config.find_config_value("Total Saved Tickets", values));
+            found_values.push(Config.find_config_value("Maximum Search Length", values));
+            found_values.push(Config.find_sections("Priority List", values));
+            found_values.push(Config.find_config_value("Priority Section Title", values));
+            found_values.push(Config.find_config_value("Auto Publish", values));
+            found_values.push(Config.find_sections("Form Section Names", values));
+            found_values.push(Config.find_sections("Filtered Section Names", values));
+            found_values.push(Config.find_config_value("Internal Section Name", values));
+            found_values.push(Config.find_config_value("Internal Sheet Number Title", values));
+            found_values.push(Config.find_sections("Priority Exclusion", values));
+            found_values.push(Config.find_sections("Internal Status Naming", values));
+            found_values.push(Config.find_sections("Current Priority Tickets", values));
+            found_values.push(Config.find_config_value("Current Active Tickets", values));
+            found_values.push(Config.find_config_value("Total Saved Tickets", values));
 
             values = found_values;
         }
