@@ -18,7 +18,7 @@ class SheetClass {
     setValues(cell, value) {
         this.checkHeight(cell);
         this.values[cell[0] - 1][cell[1] - 1] = value;
-        if (this.format != null) this.format[cell[0] - 1][cell[1] - 1] = [0, 0, 0, 0, 0, 1]
+        if (this.format != null) this.format[cell[0] - 1][cell[1] - 1] = [0, 0, 0, 0, 0, 0, 1]
 
         setSSValues(this.sheet, cell, value).then(r => console.log("value at " + cell + " set as : " + value));
         return value;
@@ -30,7 +30,7 @@ class SheetClass {
         if (is_rtv) {
             RTV = value;
             if (typeof text !== 'string') {
-                RTV = SheetClass.JSONtoRichValue(text.toString(), [[0, 0, 0, "Jetbrains Mono", "0", 1]]);
+                RTV = SheetClass.JSONtoRichValue(text.toString(), [[0, 0, 0, "Jetbrains Mono", 0, "0", 1]]);
             }
         } else {
             RTV = SheetClass.JSONtoRichValue(text, value);
@@ -100,7 +100,8 @@ class SheetClass {
                     // Font Size
                     if (run[4] !== 0) TS.setFontSize(run[4]);
 
-                    richValue = richValue.setTextStyle(run[0], run[1], TS.setForegroundColor(run[5])
+                    richValue = richValue.setTextStyle(run[0], run[1],
+                        TS.setForegroundColor(run[5])
                         .setBold(run[6] % 2 === 0)
                         .setItalic(run[6] % 3 === 0)
                         .setStrikethrough(run[6] % 5 === 0)
@@ -155,13 +156,13 @@ function formatToJSON(format, values, formatRTV = false) {
                             gridRow.push(SheetClass.richValueToJSON(cell, format[row_index][column_index]));
                         }
                         // Else it pushes the value of the cell
-                        else gridRow.push([cell.toString(), [[0, 0, 0, 0, "0", 1]]]);
+                        else gridRow.push([cell.toString(), [[0, 0, 0, 0, 0, "0", 1]]]);
                     } else {
                         if (format[row_index][column_index] !== null || format[row_index][column_index] !== "") {
                             gridRow.push([cell.toString(), format[row_index][column_index]]);
                         }
                         // Else it pushes the value of the cell
-                        else gridRow.push([cell.toString(), [[0, 0, 0, 0, "0", 1]]]);
+                        else gridRow.push([cell.toString(), [[0, 0, 0, 0, 0, "0", 1]]]);
                     }
                 }
             });
