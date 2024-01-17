@@ -8,20 +8,29 @@ function find_num_categories(values) {
     return (values.indexOf("") + 1)
 }
 
-function row_indexer(row, part) {
+function row_indexer(part, row) {
     if (row.includes(part)) {
-        return row.indexOf(part) + 1;
+        return row.indexOf(part);
     }
-    return 0;
+    return -1;
 }
 
-function sheet_indexer(part, sheet) {
+function column_indexer(part, sheet, column) {
     for (let i = 0; i < sheet.length; i++) {
-        if (sheet[i].includes(part)) {
-            return [i + 1, sheet[i].indexOf(part) + 1];
+        if (sheet[i][column] != null && sheet[i][column].includes(part)) {
+            return i;
         }
     }
-    return [0, 0];
+    return -1;
+}
+
+function sheet_indexer(part, sheet, offset=1) {
+    for (let i = 0; i < sheet.length; i++) {
+        if (sheet[i].includes(part)) {
+            return [i + offset, sheet[i].indexOf(part) + offset];
+        }
+    }
+    return [-1, -1];
 }
 
 function checkWidth(values, format, cell) {

@@ -16,7 +16,7 @@ class SheetClass {
     }
 
     setValues(cell, value) {
-        this.checkHeight(cell);
+        checkHeight(this.values, this.format, cell);
         this.values[cell[0] - 1][cell[1] - 1] = value;
         if (this.format != null) this.format[cell[0] - 1][cell[1] - 1] = [0, 0, 0, 0, 0, 0, 1]
 
@@ -25,22 +25,32 @@ class SheetClass {
     }
 
     setRichValue(cell, text, value, is_rtv = false) {
+        if (text == null) {
+            text = "";
+        }
         checkHeight(this.values, this.format, cell);
         let RTV;
         if (is_rtv) {
-            RTV = value;
-            if (typeof text !== 'string') {
+            if (typeof text != "string") {
                 RTV = SheetClass.JSONtoRichValue(text.toString(), [[0, 0, 0, "Jetbrains Mono", 0, "0", 1]]);
             }
+            else{
+                console.log("RTV is: " + text);
+                RTV = value;
+            }
         } else {
-            RTV = SheetClass.JSONtoRichValue(text, value);
+            RTV = SheetClass.JSONtoRichValue(text.toString(), value);
         }
 
-        setRTValues(this.sheet, cell, RTV).then(r => console.log("RTValue at " + cell + " set as : " + text));
+        setRTValues(this.sheet, cell, RTV).then();
 
+        if (this.format != null && is_rtv) {
+            this.format[cell[0] - 1][cell[1] - 1] = SheetClass.richValueToJSON(text.toString(), RTV)[1];
+        }
+        else if (this.format != null && !is_rtv) {
+            this.format[cell[0] - 1][cell[1] - 1] = value;
+        }
         this.values[cell[0] - 1][cell[1] - 1] = text;
-        if (this.format != null && is_rtv) this.format[cell[0] - 1][cell[1] - 1] = SheetClass.richValueToJSON(text, RTV)[1];
-        else if (this.format != null && !is_rtv) this.format[cell[0] - 1][cell[1] - 1] = value;
 
         return text;
     }
@@ -68,23 +78,18 @@ class SheetClass {
                 color,
                 TS];
 
-            if (runArray)
-
-                json[1].push([run.getStartIndex(),
-                    run.getEndIndex(),
-                    // If the run has a link
-                    run.getLinkUrl() == null ? 0 : run.getLinkUrl(),
-                    runTS.getFontFamily() == null ? 0 : runTS.getFontFamily(),
-                    runTS.getFontSize() == null ? 0 : runTS.getFontSize(),
-                    color,
-                    TS]
-                );
+            if (runArray) {
+                json[1].push(runArray);
+            }
         });
         return json;
     }
 
     static JSONtoRichValue(text, json) {
-        let richValue = SpreadsheetApp.newRichTextValue().setText(text);
+        if (text == null){
+            text = "";
+        }
+        let richValue = SpreadsheetApp.newRichTextValue().setText(text.toString());
 
         if (json != null) {
             json.forEach(run => {

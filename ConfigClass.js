@@ -159,8 +159,8 @@ class Config {
             SpreadsheetApp.getUi().alert("The config value:" + name + " does not exist");
             return;
         }
-        const cell = row_indexer(sheet[0], name);
-        return [sheet[2][cell - 1], cell - 1];
+        const cell = row_indexer(name, sheet[0]);
+        return [sheet[2][cell], cell];
     }
 
     set_config_value(name, value) {

@@ -21,36 +21,29 @@ function home_builder(storage = false, home, home_name, config) {
 
             home_values = script_values[0];
             home_class = new SheetClass(home, null, home_values, home_format);
+            return [home_class, config_values];
         } catch (err) {
             console.log(err);
-            const home_range = home.getDataRange();
-            config_values = new Config(config, config.getDataRange().getValues(), false);
-            let raw_values = formatToJSON(home_range.getRichTextValues(), home_range.getValues(), true);
-            saveValues(storage, raw_values, config_values.toJSON()).then(r => console.log(r));
-            console.log("JSON Values: ");
-            console.log(JSON.stringify(raw_values));
-            raw_values = JSONToFormat(raw_values);
-
-            home_class = new SheetClass(home, null, raw_values[0], raw_values[1]);
         }
     }
 
-    else {
-        const home_range = home.getDataRange();
-        config_values = new Config(config, config.getDataRange().getValues(), false);
-        let raw_values = formatToJSON(home_range.getRichTextValues(), home_range.getValues(), true);
-        console.log("JSON Values: ");
-        console.log(JSON.stringify(raw_values));
-        raw_values = JSONToFormat(raw_values);
-
-        home_class = new SheetClass(home, null, raw_values[0], raw_values[1]);
+    const home_range = home.getDataRange();
+    config_values = new Config(config, config.getDataRange().getValues(), false);
+    let raw_values = formatToJSON(home_range.getRichTextValues(), home_range.getValues(), true);
+    if (storage){
+        saveValues(storage, raw_values, config_values.toJSON(), home_sheet).then(r => console.log(r));
     }
+    console.log("JSON Values: ");
+    console.log(JSON.stringify(raw_values));
+    raw_values = JSONToFormat(raw_values);
+
+    home_class = new SheetClass(home, null, raw_values[0], raw_values[1]);
 
     return [home_class, config_values];
 }
 
-async function saveValues(scriptProperties, values, config_values) {
-    scriptProperties.setProperty(home_sheet, packProperties({
+async function saveValues(scriptProperties, values, config_values, home) {
+    scriptProperties.setProperty(home, packProperties({
         "values": values,
         "config": config_values,
     }));
