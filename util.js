@@ -58,3 +58,36 @@ function checkHeight(values, format, cell) {
     }
     return [values, format];
 }
+
+function parseUserRange(range){
+    if (typeof range === "string"){
+        const output = new Set();
+        const split_range = range.split(",");
+        split_range.forEach(item => {
+            item = item.trim();
+            if (item.includes("-")){
+                const split_item = item.split("-");
+                if (split_item.length !== 2){
+                    throw "ERROR: Range had an invalid dash in parseUserRange"
+                }
+                const start = parseInt(split_item[0]);
+                const end = parseInt(split_item[1]);
+                if (Number.isNaN(start) || Number.isNaN(end)){
+                    throw "ERROR: Range had invalid numbers in parseUserRange"
+                }
+                for (let i = start; i <= end; i++){
+                    output.add(i);
+                }
+            }
+            else{
+                const num = parseInt(item);
+                if (Number.isNaN(num)){
+                    throw "ERROR: Range had an invalid number in parseUserRange"
+                }
+                output.add(num);
+            }
+        });
+        return output;
+    }
+    throw "ERROR: Range was not of type String in parseUserRange"
+}

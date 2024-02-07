@@ -3,9 +3,9 @@
 // properties_manip.js
 
 function findTicketsFromSpread(scriptProperties, panel, home) {
-    const non_tickets = ss_info.getRange(2, 1, 1, 1).getValue().split("::");
+    const non_tickets = SS_INFO.getRange(2, 1, 1, 1).getValue().split("::");
 
-    let sheets = spread.getSheets();
+    let sheets = SPREAD.getSheets();
     let section_tickets = [];
     sheets.forEach((sheet) => {
         if (!non_tickets.includes(sheet.getName())) {
@@ -23,9 +23,9 @@ function findTicketsFromSpread(scriptProperties, panel, home) {
 }
 
 function findAllTickets(scriptProperties, panels) {
-    let panel_item_names = ss_info.getRange(3, 1, 1, 1).getValue().split("::");
-    const non_tickets = ss_info.getRange(2, 1, 1, 1).getValue().split("::");
-    let sheets = spread.getSheets();
+    let panel_item_names = SS_INFO.getRange(3, 1, 1, 1).getValue().split("::");
+    const non_tickets = SS_INFO.getRange(2, 1, 1, 1).getValue().split("::");
+    let sheets = SPREAD.getSheets();
 
     for (let i = 0; i < panel_item_names.length; i++) {
         let section_tickets = [];

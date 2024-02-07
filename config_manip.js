@@ -31,7 +31,7 @@ function home_builder(storage = false, home, home_name, config) {
     config_values = new Config(config, config.getDataRange().getValues(), false);
     let raw_values = formatToJSON(home_range.getRichTextValues(), home_range.getValues(), true);
     if (storage){
-        saveValues(storage, raw_values, config_values.toJSON(), home_sheet).then(r => console.log(r));
+        saveValues(storage, raw_values, config_values.toJSON(), HOME_SHEET_NAME).then(r => console.log(r));
     }
     console.log("JSON Values: ");
     console.log(JSON.stringify(raw_values));
